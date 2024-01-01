@@ -1,0 +1,27 @@
+extends layout
+block content
+  .header
+    .options
+      select(name="language" id="language")
+        option(value="0") Choose a programming langage...
+        option(selected value="c") C
+        option(value="cpp") C++
+        option(value="python") Python
+        option(value="java") Java
+    
+    .hellowing 
+      h1 Compiling Made Easy
+      p Welcome,
+      p Design, Write and Execute in a single pace
+  
+  .main 
+    .wrapper 
+      h3 Editor 
+      textarea(spellcheck=false autofocus id="editor") 
+      button(type="submit" id="run" accesskey="") Run
+
+    .wrapper 
+      h3 Console 
+      #console 
+      
+  script(src="/javascripts/index.js")

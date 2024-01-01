@@ -1,0 +1,75 @@
+body{
+  margin: 0;
+  padding: 1rem;
+}
+
+h1{
+  margin: 0;
+}
+
+.wrapper{
+  margin: 10px;
+}
+
+#language{
+  padding: 5px;
+  font-size: 1em;
+}
+
+#editor, #console{
+  min-height: 250px;
+  padding: 10px;
+  width: 95%;
+  margin: auto;
+  font-family: monospace;
+  border: 2px solid gray;
+}
+
+#editor:focus, #console:focus{
+  border: 2px solid black;
+}
+
+
+#editor{
+  display: block;
+  resize: none;
+}
+
+#console{
+  min-height: 250px;
+}
+
+#run{
+  display: block;
+  margin: 10px 10px 0 auto;
+}
+
+.header{
+  text-align: center;
+  padding: 10px;
+}
+
+.header .options{
+  margin-bottom: 20px;
+}
+
+
+@media screen and (min-width: 750px) {
+  .header{
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row-reverse;
+      text-align: left;
+  }
+}
+
+
+@media screen and (min-width: 990px) {
+  .main{
+      display: flex;
+  }
+
+  .main > * {
+      flex: 1;
+  }
+}
