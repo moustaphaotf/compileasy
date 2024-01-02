@@ -5,15 +5,34 @@
 // Uploading code
 // Sending back the output or the errors
 
-const shortcuts = {
-    'ControlEnter': function() {
-        console.log("Let's execute the code !");
-    }
-}
-
+const serverURL = "http://192.168.204.192:3000";
 const editor = document.querySelector('#editor');
+const _console = document.querySelector('#console');
+const stdout = _console.querySelector('.stdout')
+const stderr = _console.querySelector('.stderr')
+const compileOutput = _console.querySelector('.compile-output')
 const run = document.querySelector('#run');
 const language = document.querySelector('#language');
+const spinner = document.querySelector(".spinner");
+let token = "";
+const MAX_CODE_EXEC = 10;
+
+
+// Load available programming languages
+window.addEventListener('load', async () => {
+    const response = await fetch(`${serverURL}/languages`)
+    const languages = await response.json();
+    
+    const defaultLanguage = localStorage.getItem('default_language');
+
+    let html = '<option>Choose a programming language...</option>\n';
+    for(lang of languages) {
+        html += `<option ${defaultLanguage == lang.id ? 'selected' : ''} value=${lang.id}>${lang.name}</option>`;
+    }
+
+    language.innerHTML = html;
+});
+
 
 editor.addEventListener('keydown', e => {
     const key = e.key;
@@ -39,17 +58,58 @@ editor.addEventListener('keydown', e => {
 
 // Exécution du code
 run.addEventListener('click', async e => {
-    const serverURL = "http://localhost:3000/compiler";
     const code = editor.value;
     const lang = language.value;
-
+    localStorage.setItem('default_language', lang);
     const body = {code, lang };
+    spinner.style.display="inline";
 
-    const result = await fetch(serverURL, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-    })
+    if(token == "") {
+        const response = await fetch(`${serverURL}/submissions`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        
+        console.log(data)
+    
+        if(!('token' in data)) {
+            alert("Saisissez le code et choisissez un language de programmation !");
+            spinner.style.display="none";
+            return;
+        }
+
+        token = data.token;
+    }
+
+    const intervalId = setInterval(getCodeExecution, 1000);
+    let execution_times = 0;
+    
+    async function getCodeExecution() {
+        execution_times++;
+        if(execution_times >= MAX_CODE_EXEC) {
+            clearInterval(intervalId);
+            spinner.style.display="none";
+        }
+        const response = await fetch(`${serverURL}/submissions/${token}`);
+        const data = await response.json();
+
+        // If the submission is not in queue
+        if(data.status.id >= 3) {
+            token = ""
+            clearInterval(intervalId);
+            spinner.style.display="none";
+
+            // output the results           
+            stdout.innerText = data.stdout || 'N/A';
+            
+            stderr.innerText = data.stderr || 'N/A';
+            compileOutput.innerText = data.compile_output || 'N/A';
+
+            _console.parentElement.style.display="block";
+        }
+    }
 });

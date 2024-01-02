@@ -17,11 +17,24 @@ block content
   .main 
     .wrapper 
       h3 Editor 
-      textarea(spellcheck=false autofocus id="editor") 
-      button(type="submit" id="run" accesskey="") Run
+      textarea(spellcheck=false autofocus id="editor")
+      .button-spinner
+        button(type="submit" id="run" accesskey="") Run
+        img.spinner(width="30" src="/images/spinner.gif" style="display:none;")
 
-    .wrapper 
+    .wrapper(style="display:none;")
       h3 Console 
-      #console 
+      #console
+        .pre
+          b DEBUG 
+          .compile-output.error Compilation Output
+          hr
+          b STDOUT 
+          .stdout Program Output
+          hr
+          b STDERR 
+          .stderr.error Execution Errors
+
+
       
   script(src="/javascripts/index.js")

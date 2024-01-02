@@ -33,15 +33,44 @@ h1{
 #editor{
   display: block;
   resize: none;
+  background-color: #2a2a2a;
+  color: #d4d4d4;
 }
 
 #console{
   min-height: 250px;
+  overflow: hidden;
+  background-color: black;
+  color: white;
+}
+
+#console pre{
+  overflow-x: auto;
+  max-height: 100%;
+}
+
+#console pre.stderr{
+  color: red;
+}
+
+#console .stdout, #console .stderr, #console .compile-output{
+  margin: 20px;
 }
 
 #run{
-  display: block;
-  margin: 10px 10px 0 auto;
+  display: inline-block;
+  margin-right: 15px;
+  background-color: #2ecc71;
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#run:hover {
+  background-color: #45a049;
 }
 
 .header{
@@ -72,4 +101,16 @@ h1{
   .main > * {
       flex: 1;
   }
+}
+
+.error {
+  color: rgb(239, 57, 57);
+}
+
+.button-spinner{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px;
+  padding-top: 20px;
 }
