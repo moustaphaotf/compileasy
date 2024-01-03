@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const judge0URL = 'http://localhost:2358';
+const judge0URL = process.env.JUDGE0_URL;
 
 /* Compile code sent by the user */
 router.post('/', async function(req, res, next) {
@@ -32,6 +32,7 @@ router.get('/:token_id', async function(req, res, next) {
   // Get the data from the token_id
   const response = await fetch(`${judge0URL}/submissions/${token_id}`);
   const data = await response.json();
+  console.log(data);
   res.status(response.status).json(data);
 });
 

@@ -5,7 +5,7 @@
 // Uploading code
 // Sending back the output or the errors
 
-const serverURL = "http://192.168.204.192:3000";
+const serverURL = location.origin;
 const editor = document.querySelector('#editor');
 const _console = document.querySelector('#console');
 const stdout = _console.querySelector('.stdout')
@@ -105,7 +105,7 @@ run.addEventListener('click', async e => {
 
             // output the results           
             stdout.innerText = data.stdout || 'N/A';
-            
+
             stderr.innerText = data.stderr || 'N/A';
             compileOutput.innerText = data.compile_output || 'N/A';
 
