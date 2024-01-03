@@ -13,7 +13,9 @@ router.post('/', async function(req, res, next) {
     language_id 
   };
 
-  const response = await fetch(`${judge0URL}/submissions`, { 
+  console.log(body)
+
+  const response = await fetch(`${judge0URL}/submissions?base64_encoded=true`, { 
     body : JSON.stringify(body) ,
     method: "POST",
     headers: {
@@ -30,7 +32,7 @@ router.get('/:token_id', async function(req, res, next) {
   const token_id = req.params.token_id;
 
   // Get the data from the token_id
-  const response = await fetch(`${judge0URL}/submissions/${token_id}`);
+  const response = await fetch(`${judge0URL}/submissions/${token_id}?base64_encoded=true`);
   const data = await response.json();
   console.log(data);
   res.status(response.status).json(data);

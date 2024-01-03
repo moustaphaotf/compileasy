@@ -58,7 +58,7 @@ editor.addEventListener('keydown', e => {
 
 // Exécution du code
 run.addEventListener('click', async e => {
-    const code = editor.value;
+    const code = btoa(editor.value);
     const lang = language.value;
     localStorage.setItem('default_language', lang);
     const body = {code, lang };
@@ -98,16 +98,16 @@ run.addEventListener('click', async e => {
         const data = await response.json();
 
         // If the submission is not in queue
-        if(data.status.id >= 3) {
+        if(data.status && data.status.id >= 3 || response.status == 400) {
             token = ""
             clearInterval(intervalId);
             spinner.style.display="none";
 
             // output the results           
-            stdout.innerText = data.stdout || 'N/A';
+            stdout.innerText = data.stdout && atob(data.stdout) || 'N/A';
 
-            stderr.innerText = data.stderr || 'N/A';
-            compileOutput.innerText = data.compile_output || 'N/A';
+            stderr.innerText = data.stderr && atob(data.stderr) || 'N/A';
+            compileOutput.innerText = data.compile_output && atob(data.compile_output) || 'N/A';
 
             _console.parentElement.style.display="block";
         }
