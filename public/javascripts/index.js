@@ -20,7 +20,7 @@ const MAX_CODE_EXEC = 10;
 
 // Load available programming languages
 window.addEventListener('load', async () => {
-    const response = await fetch(`${serverURL}/languages`)
+    const response = await fetch(`${serverURL}/languages`, { cache: 'force-cache' });
     const languages = await response.json();
     
     const defaultLanguage = localStorage.getItem('default_language');

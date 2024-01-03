@@ -3,7 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('dotenv').config();  // Load environement variables
 const RateLimit = require('express-rate-limit');
 
 
@@ -20,7 +19,7 @@ app.set('view engine', 'pug');
 // Set up rate limiter
 const limiter = RateLimit({
   windowMs: 1*60*1000,
-  max: 20,
+  max: 50,
 });
 
 app.use(limiter);
