@@ -25,8 +25,9 @@ const limiter = RateLimit({
 
 app.use(limiter);
 
+// Setting the logger options
+app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
