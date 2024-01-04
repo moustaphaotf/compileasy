@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var fs = require('fs');
 require('dotenv').config();  // Load environement variables
 const RateLimit = require('express-rate-limit');
 
@@ -26,7 +27,14 @@ const limiter = RateLimit({
 app.use(limiter);
 
 // Setting the logger options
+// Create a write stream (in append mode)
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'logs', 'access.log'), { flags: 'a' });
+
+// Log to the console
 app.use(logger(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
+
+// Log to the stream
+app.use(logger('combined', { stream: accessLogStream }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

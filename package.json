@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "serverstart": "DEBUG=compileasy:* npm start",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
